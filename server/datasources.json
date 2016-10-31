@@ -1,0 +1,10 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "myGmailDataSource": {
+    "name": "myGmailDataSource",
+    "connector": "mail"
+  }
+}
