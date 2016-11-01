@@ -1,6 +1,7 @@
 // src/auth/index.js
 
-import {router} from '../index'
+import {router} from '../../main'
+import superagent from 'superagent'
 
 // URL and endpoint constants
 const API_URL = 'http://localhost:3001/'
@@ -15,22 +16,24 @@ export default {
   },
 
   // Send a request to the login URL and save the returned JWT
-  login(context, creds, redirect) {
-    context.$http.post(LOGIN_URL, creds, (data) => {
-      localStorage.setItem('id_token', data.id_token)
-
-      this.user.authenticated = true
-
-      // Redirect to a specified route
-      if(redirect) {
-        router.go(redirect)        
+  signIn (email, password, redirect) {
+    superagent
+    .post('/api/users/login')
+    .send({email: email, password: password})
+    .end(function (err, res) {
+      if (err) {
+        this.error = err.response.body.error.message
+      } else {
+        console.log(res.body.id)
+        localStorage.setItem('id_token', res.body.id)
+        // this.user.authenticated = true
+        console.log(this)
+        if(redirect) {
+          this.$router.push(redirect)       
+        }
       }
-
-    }).error((err) => {
-      context.error = err
     })
   },
-
   signup(context, creds, redirect) {
     context.$http.post(SIGNUP_URL, creds, (data) => {
       localStorage.setItem('id_token', data.id_token)

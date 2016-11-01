@@ -18,8 +18,7 @@
       "type": "string"
     },
     "date": {
-      "type": "date",
-      "required": true
+      "type": "date"
     }
   },
   "validations": [],

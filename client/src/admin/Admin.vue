@@ -10,34 +10,66 @@
             //- router-link(exact to="/") Introduction
             router-link(to="/admin/signup") Sign Up
           md-list-item
-            router-link(to="/admin/signin") Sign In  
+            router-link(to="/admin/signin") Sign In
           md-list-item
-            span Components
-            md-list-expand
-              md-list
-                md-list-item.md-inset
-                  router-link(exact to="/components/avatar") Avatar
+            router-link(exact to="/admin/news") News
+          //- md-list-item
+          //-   span News
+          //-   md-list-expand
+          //-     md-list
+          //-       md-list-item.md-inset
+          //-         router-link(exact to="/admin/news/add") Add News
     
     .page-content.single-page
       md-toolbar
         md-button.md-icon-button(@click="toggleLeftSidenav")
           md-icon menu
-        h2.md-title Admin Home
+        h2.md-title(style="flex: 1") Admin Home
+        md-button(v-if="user.authenticated", @click="logout") logout
       router-view
 </template>
 
 <script>
+import Api from '../scripts/api'
 export default {
-  name: 'Home',
+  name: 'AdminHome',
   data () {
     return {
       auth: {
         username: '',
         password: ''
+      },
+      user: {
+        authenticated: false,
+        token: ''
       }
     }
   },
+  created () {
+    this.checkAuth()
+    this.$on('updateSecret', (res) => {
+      this.user.token = res
+      this.user.authenticated = true
+    })
+  },
   methods: {
+    checkAuth() {
+      var jwt = localStorage.getItem('id_token')
+      if (jwt) {
+        // this.user.authenticated = true
+        // this.user.token = jwt
+        Api.checkAuth(jwt, (err,data) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log(data)
+          }
+        })
+      } else {
+        this.user.authenticated = false
+        this.$router.replace('/admin/signin')
+      }
+    },
     toggleLeftSidenav() {
       console.log('all')
       this.$refs.leftSidenav.toggle();
@@ -53,6 +85,18 @@ export default {
     },
     close(ref) {
       console.log('Closed: ' + ref);
+    },
+    logout() {
+      Api.signOut(this.user.token, (err, data) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(data)
+          localStorage.removeItem('id_token')
+          this.user.authenticated = false
+          this.user.token = ''
+        }
+      })
     }
   }
 }

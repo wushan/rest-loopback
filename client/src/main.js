@@ -8,6 +8,7 @@ import Admin from './admin/Admin'
 import AdminHome from './admin/Home'
 import Signup from './admin/Signup'
 import Signin from './admin/Signin'
+import News from './admin/News'
 // Vue Material
 Vue.use(VueMaterial)
 Vue.material.theme.register('default', {
@@ -28,6 +29,10 @@ const router = new VueRouter({
         {
           path: 'home',
           component: AdminHome
+        },
+        {
+          path: 'news',
+          component: News
         },
         {
           path: 'signup',

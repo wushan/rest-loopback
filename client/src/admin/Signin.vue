@@ -34,6 +34,7 @@ export default {
           console.log(err)
         } else {
           localStorage.setItem('id_token', data.id)
+          this.$parent.$emit('updateSecret', data.id)
           this.$router.push('/admin/home')
         }
       })
