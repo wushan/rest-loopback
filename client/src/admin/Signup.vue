@@ -1,5 +1,5 @@
 <template lang="pug">
-  #signup
+  #signup.single-page-content
     h2 Sign Up
     form(novalidate)
       md-input-container

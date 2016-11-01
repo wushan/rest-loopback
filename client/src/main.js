@@ -5,6 +5,7 @@ import 'vue-material/dist/vue-material.css'
 import App from './App'
 import Home from './components/Home'
 import Admin from './admin/Admin'
+import AdminHome from './admin/Home'
 import Signup from './admin/Signup'
 import Signin from './admin/Signin'
 // Vue Material
@@ -24,6 +25,10 @@ const router = new VueRouter({
     { path: '/', component: Home },
     { path: '/admin', component: Admin,
       children: [
+        {
+          path: 'home',
+          component: AdminHome
+        },
         {
           path: 'signup',
           component: Signup

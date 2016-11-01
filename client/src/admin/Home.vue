@@ -1,14 +1,6 @@
 <template lang="pug">
   #signup.single-page-content
-    h2 Sign In
-    form(novalidate)
-      md-input-container
-        label Username
-        md-input(v-model="auth.username")
-      md-input-container(md-has-password)
-        label Password
-        md-input(v-model="auth.password", type="password")
-      md-button.md-raised.md-primary(type="submit", @click="signIn") Primary
+    h2 AdminHome
 </template>
 
 <script>
@@ -33,7 +25,7 @@ export default {
           this.error = err.toString()
           console.log(err)
         } else {
-          localStorage.setItem('id_token', data.id)
+          console.log(data)
           this.$router.push('/admin/home')
         }
       })
