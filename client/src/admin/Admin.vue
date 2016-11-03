@@ -31,6 +31,7 @@
 
 <script>
 import Api from '../scripts/api'
+import Store from '../scripts/vendor/store'
 export default {
   name: 'AdminHome',
   data () {
@@ -54,7 +55,7 @@ export default {
   },
   methods: {
     checkAuth() {
-      var jwt = localStorage.getItem('id_token')
+      var jwt = Store.get('access')
       if (jwt) {
         // this.user.authenticated = true
         // this.user.token = jwt

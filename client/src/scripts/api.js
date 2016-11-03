@@ -1,10 +1,12 @@
 import superagent from 'superagent'
+import Store from './vendor/store'
 export default {
-  checkAuth (token, cb) {
-    console.log(token)
+  checkAuth (access, cb) {
+    console.log(access)
     superagent
-    .get('/api/users/findOne')
-    .set('access_token', token)
+    .get('/api/users/' + access.userId + '/exists')
+    .query({access_token: access.id})
+    // .set('access_token', access.id)
     .end(function (err, res) {
       if (err) {
         cb(err.response.body.error.message)
@@ -33,6 +35,7 @@ export default {
       if (err) {
         cb(err.response.body.error.message)
       } else {
+        Store.set('access', res.body)
         cb(null, res.body)
       }
     })
