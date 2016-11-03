@@ -57,15 +57,15 @@ export default {
     checkAuth() {
       var jwt = Store.get('access')
       if (jwt) {
-        // this.user.authenticated = true
-        // this.user.token = jwt
-        Api.checkAuth(jwt, (err,data) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(data)
-          }
-        })
+        this.user.authenticated = true
+        this.user.token = jwt
+        // Api.checkAuth(jwt, (err,data) => {
+        //   if (err) {
+        //     console.log(err)
+        //   } else {
+        //     console.log(data)
+        //   }
+        // })
       } else {
         this.user.authenticated = false
         this.$router.replace('/admin/signin')

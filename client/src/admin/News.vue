@@ -11,7 +11,14 @@
         label Content
         md-textarea(required, v-model="news.content")
       md-button.md-raised.md-primary(type="submit", @click="submit") Submit
-
+    
+    md-list
+      md-list-item(v-for="news in newslist")
+        span(style="flex: 1") {{news.title}}
+        md-button.md-icon-button.md-list-action
+          md-icon.md-primary edit
+        md-button.md-icon-button.md-list-action
+          md-icon.md-primary delete
 </template>
 
 <script>
@@ -23,14 +30,26 @@ export default {
       news: {
         title: '',
         content: ''
-      }
+      },
+      newslist: []
     }
   },
+  created () {
+    this.fetchData()
+  },
   methods: {
+    fetchData () {
+      Api.getNews((err, data) => {
+        if (err) {
+          this.error = err.toString()
+          console.log(err)
+        } else {
+          this.newslist = data
+        }
+      })
+    },
     submit () {
-      const title = this.news.title
-      const content = this.news.content
-      Api.addNews(title, content, (err, data) => {
+      Api.addNews(this.news.title, this.news.content, (err, data) => {
         if (err) {
           this.error = err.toString()
           console.log(err)

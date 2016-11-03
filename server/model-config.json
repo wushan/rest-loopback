@@ -33,7 +33,7 @@
     "public": false
   },
   "news": {
-    "dataSource": "db",
+    "dataSource": "mysqlDs",
     "public": true
   }
 }

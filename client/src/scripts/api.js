@@ -52,9 +52,23 @@ export default {
       }
     })
   },
-  addNews (title, content, cb) {
+  // News
+  getNews (cb) {
     superagent
-    .post('/api/news')
+    .get('/api/news')
+    .end(function (err, res) {
+      if (err) {
+        cb(err.response.body.error.message)
+      } else {
+        cb(null, res.body)
+      }
+    })
+  },
+  addNews (title, content, cb) {
+    var cred = Store.get('access')
+    superagent
+    .post('/api/news/create')
+    .query({access_token: cred.id})
     .send({title})
     .send({content})
     .end(function (err, res) {
