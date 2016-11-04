@@ -10,3 +10,6 @@
 
 //   var container = ds.createModel('container');
 // };
+module.exports = function(server) {
+    server.dataSources.Storage.connector.allowedContentTypes = ["image/jpg", "image/jpeg", "image/png"];
+}

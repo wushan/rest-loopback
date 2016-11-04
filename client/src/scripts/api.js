@@ -69,30 +69,44 @@ export default {
   addNews (title, content, file, cb) {
     var cred = Store.get('access')
     var containerUrl = '/api/containers/news/'
-    //Get File Url First
     superagent
-    .post(containerUrl + '/upload')
-    .query({access_token: cred.id})
-    .attach('file', file[0])
-    .end(function (err, res) {
-      if (err) {
-        cb(err.response.body.error.message)
-      } else {
-        console.log(res.body)
-        superagent
-        .post('/api/news/create')
-        .query({access_token: cred.id})
-        .send({title})
-        .send({content})
-        .send({media: containerUrl + '/download/' + res.body.result.files.file[0].name})
-        .end(function (err, res) {
-          if (err) {
-            cb(err.response.body.error.message)
-          } else {
-            cb(null, res.body)
-          }
-        })
-      }
-    })
+      .post('/api/news/create')
+      .query({access_token: cred.id})
+      .send({title})
+      .send({content})
+      .attach(file[0])
+      // .send({media: containerUrl + '/download/' + res.body.result.files.file[0].name})
+      .end(function (err, res) {
+        if (err) {
+          cb(err.response.body.error.message)
+        } else {
+          cb(null, res.body)
+        }
+      })
+    // //Get File Url First
+    // superagent
+    // .post(containerUrl + '/upload')
+    // .query({access_token: cred.id})
+    // .attach('file', file[0])
+    // .end(function (err, res) {
+    //   if (err) {
+    //     cb(err.response.body.error.message)
+    //   } else {
+    //     console.log(res.body)
+    //     superagent
+    //     .post('/api/news/create')
+    //     .query({access_token: cred.id})
+    //     .send({title})
+    //     .send({content})
+    //     .send({media: containerUrl + '/download/' + res.body.result.files.file[0].name})
+    //     .end(function (err, res) {
+    //       if (err) {
+    //         cb(err.response.body.error.message)
+    //       } else {
+    //         cb(null, res.body)
+    //       }
+    //     })
+    //   }
+    // })
   }
 }

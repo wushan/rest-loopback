@@ -11,4 +11,9 @@ module.exports = function(News) {
     // TODO
     callback(null, created);
   };
+  News.beforeRemote('create', function( ctx, unused, next) {
+    //...
+      console.log(ctx.req)
+      next();
+  });
 };
