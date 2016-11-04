@@ -11,9 +11,19 @@ import Signin from './admin/Signin'
 import News from './admin/News'
 // Vue Material
 Vue.use(VueMaterial)
-Vue.material.theme.register('default', {
-  primary: 'indigo',
-  accent: 'pink'
+Vue.material.theme.registerAll({
+  default: {
+    primary: 'red',
+    accent: 'orange'
+  },
+  indigo: {
+    primary: 'indigo',
+    accent: 'pink'
+  },
+  white: {
+    primary: 'white',
+    accent: 'indigo'
+  }
 })
 
 // Vue Router

@@ -40,14 +40,16 @@ export default {
       }
     })
   },
-  signOut (token, cb) {
+  signOut (cb) {
+    var cred = Store.get('access')
     superagent
     .post('/api/users/logout')
-    .query({access_token: token})
+    .query({access_token: cred.id})
     .end(function (err, res) {
       if (err) {
         cb(err.response.body.error.message)
       } else {
+        Store.remove('access')
         cb(null, res.body)
       }
     })
@@ -64,18 +66,32 @@ export default {
       }
     })
   },
-  addNews (title, content, cb) {
+  addNews (title, content, file, cb) {
     var cred = Store.get('access')
+    var containerUrl = '/api/containers/news/'
+    //Get File Url First
     superagent
-    .post('/api/news/create')
+    .post(containerUrl + '/upload')
     .query({access_token: cred.id})
-    .send({title})
-    .send({content})
+    .attach('file', file[0])
     .end(function (err, res) {
       if (err) {
         cb(err.response.body.error.message)
       } else {
-        cb(null, res.body)
+        console.log(res.body)
+        superagent
+        .post('/api/news/create')
+        .query({access_token: cred.id})
+        .send({title})
+        .send({content})
+        .send({media: containerUrl + '/download/' + res.body.result.files.file[0].name})
+        .end(function (err, res) {
+          if (err) {
+            cb(err.response.body.error.message)
+          } else {
+            cb(null, res.body)
+          }
+        })
       }
     })
   }

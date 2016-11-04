@@ -1,6 +1,7 @@
 <template lang="pug">
   #app(v-md-theme="'default'")
     router-view
+    span Built by Vue.js / Vue Material and loopback.js
 </template>
 
 <script>

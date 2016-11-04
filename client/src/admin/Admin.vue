@@ -1,17 +1,17 @@
 <template lang="pug">
   #admin.container.md-theme-default
     md-sidenav.main-sidebar.md-left(ref="leftSidenav", @open="open('Left')", @close="close('Left')")
-      md-toolbar.md-large
+      md-toolbar.md-large.md-theme-white
         .md-toolbar-container
           h3.md-title Sidenav content
       .main-sidebar-links
         md-list.md-dense
-          md-list-item
-            //- router-link(exact to="/") Introduction
-            router-link(to="/admin/signup") Sign Up
+          //- md-list-item
+          //-   //- router-link(exact to="/") Introduction
+          //-   router-link(to="/admin/signup") Sign Up
           md-list-item
             router-link(to="/admin/signin") Sign In
-          md-list-item
+          md-list-item(v-if="user.authenticated")
             router-link(exact to="/admin/news") News
           //- md-list-item
           //-   span News
@@ -27,13 +27,18 @@
         h2.md-title(style="flex: 1") Admin Home
         md-button(v-if="user.authenticated", @click="logout") logout
       router-view
+      providers
 </template>
 
 <script>
 import Api from '../scripts/api'
 import Store from '../scripts/vendor/store'
+import Providers from '../components/Providers'
 export default {
   name: 'AdminHome',
+  components: {
+    Providers
+  },
   data () {
     return {
       auth: {
@@ -59,13 +64,6 @@ export default {
       if (jwt) {
         this.user.authenticated = true
         this.user.token = jwt
-        // Api.checkAuth(jwt, (err,data) => {
-        //   if (err) {
-        //     console.log(err)
-        //   } else {
-        //     console.log(data)
-        //   }
-        // })
       } else {
         this.user.authenticated = false
         this.$router.replace('/admin/signin')
@@ -88,14 +86,13 @@ export default {
       console.log('Closed: ' + ref);
     },
     logout() {
-      Api.signOut(this.user.token, (err, data) => {
+      Api.signOut((err, data) => {
         if (err) {
           console.log(err)
         } else {
-          console.log(data)
-          localStorage.removeItem('id_token')
           this.user.authenticated = false
           this.user.token = ''
+          this.$router.replace('/admin/signin')
         }
       })
     }
@@ -206,6 +203,9 @@ export default {
     overflow: auto;
     position: relative;
     z-index: 1;
+    .md-toolbar {
+      color: #ffffff;
+    }
   }
   .page-content-wrapper {
     display: flex;

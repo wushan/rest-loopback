@@ -8,7 +8,7 @@
       md-input-container(md-has-password)
         label Password
         md-input(v-model="auth.password", type="password")
-      md-button.md-raised.md-primary(type="submit", @click="signIn") Primary
+      md-button.md-raised.md-primary(type="submit", @click="signIn") Sign In
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
           this.error = err.toString()
           console.log(err)
         } else {
-          this.$parent.$emit('updateSecret', data.id)
+          this.$parent.$emit('updateSecret', data)
           this.$router.push('/admin/home')
         }
       })
