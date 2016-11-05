@@ -21,11 +21,6 @@
           //-         router-link(exact to="/admin/news/add") Add News
     
     .page-content.single-page
-      md-toolbar
-        md-button.md-icon-button(@click="toggleLeftSidenav")
-          md-icon menu
-        h2.md-title(style="flex: 1") Admin Home
-        md-button(v-if="user.authenticated", @click="logout") logout
       router-view
       providers
 </template>

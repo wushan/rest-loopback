@@ -1,0 +1,26 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "myGmailDataSource": {
+    "name": "myGmailDataSource",
+    "connector": "mail"
+  },
+  "mysqlDs": {
+    "host": "45.32.13.68",
+    "port": 3306,
+    "url": "",
+    "database": "loopback",
+    "password": "GM2gwqXNKixowdU4fFPGi",
+    "name": "mysqlDs",
+    "user": "wushan",
+    "connector": "mysql"
+  },
+  "Storage": {
+    "name": "Storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./server/storage"
+  }
+}

@@ -9,6 +9,7 @@ import AdminHome from './admin/Home'
 import Signup from './admin/Signup'
 import Signin from './admin/Signin'
 import News from './admin/News'
+import PostNews from './admin/News/PostNews'
 // Vue Material
 Vue.use(VueMaterial)
 Vue.material.theme.registerAll({
@@ -42,7 +43,13 @@ const router = new VueRouter({
         },
         {
           path: 'news',
-          component: News
+          component: News,
+          children: [
+            {
+              path: 'create',
+              component: PostNews
+            }
+          ]
         },
         {
           path: 'signup',

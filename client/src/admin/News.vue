@@ -1,34 +1,29 @@
 <template lang="pug">
-  .single-page-content
-    h2 News
-    //- md-button.md-icon-button.md-raised.md-primary
-    //-   md-icon add
-    md-tabs
-      md-tab#newsList(md-label="List")
-        md-list(style="border:1px solid rgba(0,0,0,.12)")
-          md-list-item(v-for="news in newslist")
-            md-avatar
-              img(:src="news.media")
-            span(style="flex: 1") {{news.title}}
-            md-button.md-icon-button.md-list-action
-              md-icon.md-primary edit
-            md-button.md-icon-button.md-list-action
-              md-icon.md-primary delete
-      md-tab#addNews(md-label="Add News")
-        form(novalidate)
-          md-input-container
-            label Title
-            md-input(required, v-model="news.title")
-          md-input-container
-            label Content
-            md-textarea(required, v-model="news.content")
-          .controlgroup
-            input#file(name="file", type="file", @change="updateFileInput")
-            label(for="file")
-              .filename
-              span Browse
-          md-button.md-raised.md-primary(type="submit", @click="submit") Submit
-      
+  #news
+    md-toolbar
+      .md-toolbar-container
+        md-button.md-icon-button(@click="toggleLeftSidenav")
+          md-icon menu
+        span(style="flex: 1")
+      //- md-button(v-if="user.authenticated", @click="logout") logout
+      .md-toolbar-container
+        h2.md-title Vue Material
+        md-button.md-fab.md-fab-bottom-right(@click="addNews")
+          md-icon add
+    .single-page-content
+      h2 News
+      router-view
+      //- md-button.md-icon-button.md-raised.md-primary
+      //-   md-icon add
+      md-list(style="border:1px solid rgba(0,0,0,.12)")
+        md-list-item(v-for="news in newslist")
+          md-avatar
+            img(:src="news.media")
+          span(style="flex: 1") {{news.title}}
+          md-button.md-icon-button.md-list-action
+            md-icon.md-primary edit
+          md-button.md-icon-button.md-list-action
+            md-icon.md-primary delete
 </template>
 
 <script>
@@ -49,6 +44,13 @@ export default {
     this.fetchData()
   },
   methods: {
+    addNews () {
+      this.$router.push('news/create')
+    },
+    toggleLeftSidenav() {
+      console.log('all')
+      this.$parent.$refs.leftSidenav.toggle();
+    },
     fetchData () {
       Api.getNews((err, data) => {
         if (err) {
@@ -58,48 +60,21 @@ export default {
           this.newslist = data
         }
       })
-    },
-    updateFileInput (e) {
-      var files = e.target.files || e.dataTransfer.files
-      var filename = e.target.value.split('\\').pop()
-      e.target.nextSibling.childNodes[0].innerText = filename
-      // console.log(e.target.nextSibling.childNodes[0].innerText)
-      if (!files.length) {
-        return
-      }
-      this.news.file = files
-    },
-    submit () {
-      Api.addNews(this.news.title, this.news.content, this.news.file, (err, data) => {
-        if (err) {
-          this.error = err.toString()
-          console.log(err)
-        } else {
-          console.log(data)
-        }
-      })
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+<style lang="scss">
+#news {
+  .md-button.md-fab {
+    margin: 0;
+    right: 56px;
+    bottom: -26px;
+  }
+  .md-toolbar {
+    margin-bottom: 50px;
+  } 
 }
 </style>

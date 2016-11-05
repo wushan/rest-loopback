@@ -21,6 +21,11 @@
       "type": "date"
     }
   },
+  "mixins": {
+    "TimeStamp" : {
+      "createdAt" : "created_at"
+    }
+  },
   "validations": [],
   "relations": {},
   "acls": [
